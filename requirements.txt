@@ -1,3 +1,14 @@
+Flask
+flask-socketio
+websockets
+gunicorn
+requests
+python-dotenv
+beautifulsoup4
+pypdf
+edge-tts
+fpdf
+Pillow
 Flask==3.0.3
 gunicorn==23.0.0
 requests==2.32.4
@@ -9,4 +20,9 @@ huggingface_hub
 edge-tts
 reportlab
 fpdf2==2.8.3
+
+beautifulsoup4
+fpdf2
+deepgram-sdk
+
 Flask-Login
