@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GROOM AI</title>
+
+    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+
+
+<div class="app">
+
+
+    <div class="aurora">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+    
+    <div class="sidebar" id="sidebar">
+
+        <div class="sidebar-top">
+    
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">✦</div>
+    
+                <div>
+                    <strong>GROOM AI</strong>
+                    <small>AI Assistant</small>
+                </div>
+            </div>
+    
+            <button id="backBtn" class="sidebar-close">
+                ×
+            </button>
+    
+        </div>
+    
+    
+        <button id="newChatBtn"
+                class="new-chat-button"
+                onclick="newChat()">
+    
+            <span class="new-chat-icon">＋</span>
+    
+            <span>New Chat</span>
+    
+            <kbd>Ctrl K</kbd>
+    
+        </button>
+    
+    
+        <div class="sidebar-section">
+    
+            <div class="sidebar-label">
+                <span>Workspace</span>
+            </div>
+    
+    
+            <button class="sidebar-item active">
+                <span class="sidebar-item-icon">✦</span>
+                <span>Chats</span>
+            </button>
+    
+    
+            <button class="sidebar-item"
+                    onclick="window.location.href='/game-studio'">
+    
+                <span class="sidebar-item-icon">◆</span>
+                <span>Game Studio</span>
+    
+                <em>NEW</em>
+    
+            </button>
+    
+    
+            <button class="sidebar-item">
+    
+                <span class="sidebar-item-icon">&lt;/&gt;</span>
+                <span>Code</span>
+    
+            </button>
+    
+    
+            <button class="sidebar-item"
+                    onclick="window.location.href='/website-builder'">
+    
+                <span class="sidebar-item-icon">◎</span>
+                <span>Web Builder</span>
+    
+            </button>
+    
+        </div>
+    
+    
+        <div class="sidebar-section chats-section">
+    
+            <div class="sidebar-label">
+                <span>Recent Chats</span>
+            </div>
+    
+            <div id="chatList"></div>
+    
+        </div>
+    
+    
+        <div class="sidebar-bottom">
+    
+            <button class="sidebar-item">
+    
+                <span class="sidebar-item-icon">⚙</span>
+                <span>Settings</span>
+    
+            </button>
+    
+    
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    {{ current_user.username[0]|upper }}
+                </div>
+            
+                <div class="user-info">
+                    <strong>{{ current_user.username }}</strong>
+                    <small>{{ current_user.email }}</small>
+                </div>
+            
+                <span class="user-menu">•••</span>
+            
+            </div>
+    
+        </div>
+    
+    </div>
+
+
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-btn" id="menuBtn" aria-label="Open chats">☰</button>
+            <div class="brand-mark logo" title="GROOM AI">✦</div>
+            <div class="brand-copy">
+                <h2>GROOM AI</h2>
+                <span>AI Assistant</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="model-pill">GROOM 1.0⌄</button>
+            <button class="pro-pill">✦ PRO</button>
+            <a
+                id="videoCallBtn"
+                class="menu-btn"
+                aria-label="Live mode"
+                href="/live"
+                style="text-decoration:none;"
+            >
+                ◉
+            </a>
+        </div>
+        <a
+            href="https://groom-ai-v2-0.onrender.com/live"
+            class="live-button"
+        >
+            🤖 GROOM LIVE
+        </a>
+    </header>
+
+    <div class="chat-container">
+
+        <main id="chat-box">
+
+            <div id="welcome" class="welcome premium-home">
+                <div class="premium-orb" aria-label="GROOM AI">
+                    <div class="premium-orb-core">✦</div>
+                </div>
+                <div class="premium-greeting">
+                    <h1>Hello, I'm <strong>GROOM AI</strong> <span>👋</span></h1>
+                    <p>Your intelligent AI companion</p>
+                </div>
+
+                <div class="premium-feature-grid">
+                    <button class="premium-feature" onclick="quickPrompt('Help me with my question')">
+                        <span class="pf-icon">●</span><span><b>Chat with AI</b><small>Ask anything</small></span>
+                    </button>
+                    <button class="premium-feature" onclick="window.location.href='/game-studio'">
+                        <span class="pf-icon">◆</span><span><b>Game Studio</b><small>Create games with AI</small></span>
+                    </button>
+                    <button class="premium-feature" onclick="quickPrompt('Help me write and debug code')">
+                        <span class="pf-icon">&lt;/&gt;</span><span><b>Code Assistant</b><small>Build & debug</small></span>
+                    </button>
+                    <button class="premium-feature" onclick="window.location.href='/website-builder'">
+                        <span class="pf-icon">◎</span><span><b>Web Builder</b><small>Build websites</small></span>
+                    </button>
+                </div>
+
+                <section class="game-studio-card">
+                    <div class="section-kicker"><span>◆</span> Game Studio <em>NEW</em></div>
+                    <h2>Create Amazing Games <span>with AI</span></h2>
+                    <p>Describe your game idea and watch it come to life.</p>
+                    <button class="game-prompt" onclick="window.location.href='/game-studio'">
+                        <span>Describe your game...</span><b>✦</b>
+                    </button>
+                    <div class="game-template-row">
+                        <button onclick="quickPrompt('Make a 3D endless runner game')"><span>🏃</span><b>Runner</b></button>
+                        <button onclick="quickPrompt('Make a 3D racing game')"><span>🏎️</span><b>Racing</b></button>
+                        <button onclick="quickPrompt('Make a 3D platform game')"><span>🎮</span><b>Platformer</b></button>
+                    </div>
+                </section>
+
+                <section class="recent-section">
+                    <div class="recent-heading"><h3>Recent Chats</h3><button onclick="newChat()">See all ›</button></div>
+                    <div class="recent-list">
+                        <button onclick="quickPrompt('Make a 3D racing game')"><span class="recent-icon">◆</span><b>Make a 3D racing game</b><small>11:30 AM</small></button>
+                        <button onclick="quickPrompt('Explain quantum physics')"><span class="recent-icon">✦</span><b>Explain quantum physics</b><small>Yesterday</small></button>
+                        <button onclick="quickPrompt('Build a portfolio website')"><span class="recent-icon">◎</span><b>Build a portfolio website</b><small>Yesterday</small></button>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    
+    </div>
+
+    <footer id="input-area" class="input-area">
+
+        <div class="input-wrapper">
+    
+            <div id="imagePreviewContainer"></div>
+    
+            <div class="composer">
+                <label for="fileInput" id="attachBtn" title="Attach image or PDF">＋</label>
+    
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*,.pdf,application/pdf"
+                    hidden
+                >
+    
+                <input
+                    id="message"
+                    type="text"
+                    placeholder="Message GROOM AI..."
+                    autocomplete="off"
+                >
+    
+                <button id="micBtn" class="composer-tool" type="button" title="Voice">⌁</button>
+                <button id="sendBtn">➤</button>
+    
+            </div>
+    
+        </div>
+    
+    </footer>
+
+    
+</div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+function quickPrompt(text){
+    const el=document.getElementById('message');
+    if(!el) return;
+    el.value=text;
+    el.focus();
+    if(typeof sendMessage==='function') sendMessage();
+}
+
+const mic=document.getElementById('micBtn');
+if(mic && 'webkitSpeechRecognition' in window){
+    mic.addEventListener('click',()=>{
+        const r=new webkitSpeechRecognition();
+        r.lang='en-US';
+        r.interimResults=false;
+        r.onresult=e=>{ document.getElementById('message').value=e.results[0][0].transcript; };
+        r.start();
+    });
+}
+</script>
+
+<div id="cursor-glow"></div>
+
+<div id="imageViewer" class="image-viewer">
+
+    <span class="close-image" onclick="closeImage()">&times;</span>
+
+    <img id="viewerImage">
+
+
+
+</div>
+
+<!-- GROOM AI Robot -->
+<!-- GROOM AI Robot -->
+<!-- ==========================
+     GROOM AI ROBOT
+========================== -->
+
+<div id="groom-helper">
+
+    <!-- Assistant Panel -->
+    <div id="groom-panel">
+
+        <div id="groomPanelContent">
+
+            <div class="panel-title">
+                🤖 GROOM Assistant
+            </div>
+
+            <!-- Quick Ask -->
+            <button class="groom-action" data-action="ask">
+                💡 Quick Ask
+            </button>
+
+            <div id="quickAskMenu" class="quick-menu">
+
+                <button class="quick-item">
+                    📄 Summarize this chat
+                </button>
+
+                <button class="quick-item">
+                    💻 Help me write code
+                </button>
+
+                <button class="quick-item">
+                    📝 Write an email
+                </button>
+
+                <button class="quick-item">
+                    🌍 Translate text
+                </button>
+
+                <button class="quick-item">
+                    🧠 Explain simply
+                </button>
+
+            </div>
+
+            <!-- Main Actions -->
+            <button class="groom-action" data-action="web">
+                🌐 Search Web
+            </button>
+
+            <button class="groom-action" data-action="image">
+                🖼️ Generate Image
+            </button>
+
+            <button id="summaryBtn" class="groom-action">
+                📄 Summarize Chat
+            </button>
+
+            <button id="fileBtn" class="groom-action">
+                📎 Analyze File
+            </button>
+
+            <button id="codeBtn" class="groom-action">
+                💻 Code Helper
+            </button>
+
+            <button class="groom-action close-panel">
+                ❌ Close
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Robot -->
+    <div class="groom-robot">
+
+        <!-- Head -->
+        <div class="groom-head">
+
+            <div class="groom-mouth"></div>
+
+            <div class="eye left-eye"></div>
+
+            <div class="eye right-eye"></div>
+
+            <div class="mouth"></div>
+
+        </div>
+
+        <!-- Body -->
+        <div class="groom-body">
+
+            <div class="arm left-arm"></div>
+
+            <div class="core"></div>
+
+            <div class="arm right-arm"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Speech Bubble -->
+    <div class="groom-message">
+        👋 Hi! I'm GROOM.
+    </div>
+
+</div>
+
+<div id="videoModal" class="video-modal">
+
+    <div class="video-window">
+
+        <video
+            id="camera"
+            autoplay
+            playsinline
+            muted
+        ></video>
+
+        <button id="closeVideo">
+            End Call
+        </button>
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>
